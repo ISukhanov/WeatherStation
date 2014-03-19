@@ -59,20 +59,24 @@ public class MainActivity extends ActionBarActivity
 		               .commit();
 	}
 
-	public void onSectionAttached(int number)
+	public String getSectionString(int number)
 	{
+		String res = new String();
 		switch (number)
 		{
 			case 1:
-				mTitle = getString(R.string.title_section1);
+				res = getString(R.string.main);
 				break;
 			case 2:
-				mTitle = getString(R.string.title_section2);
-				break;
-			case 3:
-				mTitle = getString(R.string.title_section3);
+				res = getString(R.string.forecast);
 				break;
 		}
+		return res;
+	}
+
+	public void onSectionAttached(int number)
+	{
+		mTitle = this.getSectionString(number);
 	}
 
 	public void restoreActionBar()

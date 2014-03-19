@@ -114,9 +114,8 @@ public class NavigationDrawerFragment extends Fragment
 				android.R.layout.simple_list_item_1,
 				android.R.id.text1,
 				new String[]{
-					getString(R.string.title_section1),
-					getString(R.string.title_section2),
-					getString(R.string.title_section3),
+					getString(R.string.main),
+					getString(R.string.forecast),
 				}
 			)
 		                          );
@@ -286,12 +285,6 @@ public class NavigationDrawerFragment extends Fragment
 	{
 		if (mDrawerToggle.onOptionsItemSelected(item))
 		{
-			return true;
-		}
-
-		if (item.getItemId() == R.id.action_example)
-		{
-			Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 
