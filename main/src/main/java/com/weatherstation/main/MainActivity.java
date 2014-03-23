@@ -61,7 +61,7 @@ public class MainActivity extends ActionBarActivity
 
 	public String getSectionString(int number)
 	{
-		String res = new String();
+		String res;
 		switch (number)
 		{
 			case 1:
@@ -70,6 +70,8 @@ public class MainActivity extends ActionBarActivity
 			case 2:
 				res = getString(R.string.forecast);
 				break;
+			default:
+				res = "";
 		}
 		return res;
 	}
@@ -149,9 +151,23 @@ public class MainActivity extends ActionBarActivity
 			Bundle savedInstanceState
 		                        )
 		{
-			View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-			TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-			textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+
+			int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
+			int fragment;
+			switch (sectionNumber)
+			{
+				case 1:
+				default:
+					fragment = R.layout.fragment_main;
+					break;
+				case 2:
+					fragment = R.layout.fragment_forecast;
+					break;
+			}
+
+			View rootView = inflater.inflate(fragment, container, false);
+//			TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//			textView.setText(Integer.toString());
 			return rootView;
 		}
 
