@@ -32,9 +32,8 @@
 				android:layout_weight="1"
 				android:layout_height="fill_parent"/>
 
-			<Button
-				android:id="@+id/Button06"
-				android:text="Button"
+			<AnalogClock
+				android:id="@+id/Clock"
 				android:layout_width="0dp"
 				android:layout_weight="1"
 				android:layout_height="fill_parent"/>
@@ -46,23 +45,20 @@
 			android:layout_weight="0.33"
 			android:layout_height="0dp">
 
-			<Button
-				android:id="@+id/Button01"
-				android:text="Button"
+			<TextView
+				android:id="@+id/pressure"
 				android:layout_width="0dp"
 				android:layout_weight="1"
 				android:layout_height="fill_parent"/>
 
-			<Button
-				android:id="@+id/Button02"
-				android:text="Button"
+			<TextView
+				android:id="@+id/humidity"
 				android:layout_width="0dp"
 				android:layout_weight="1"
 				android:layout_height="fill_parent"/>
 
-			<Button
-				android:id="@+id/Button03"
-				android:text="Button"
+			<TextView
+				android:id="@+id/temperature"
 				android:layout_width="0dp"
 				android:layout_weight="1"
 				android:layout_height="fill_parent"/>

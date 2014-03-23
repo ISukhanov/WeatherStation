@@ -1,26 +1,62 @@
 package com.weatherstation.main;
 
 import android.app.Activity;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity
-	implements NavigationDrawerFragment.NavigationDrawerCallbacks
+	implements NavigationDrawerFragment.NavigationDrawerCallbacks, SensorEventListener
 {
+
+	private SensorManager mSensorManager;
+	private Sensor mTemperature;
+	private Sensor mHumidity;
+	private Sensor mPressure;
+
+	@Override
+	public void onSensorChanged(SensorEvent sensorEvent)
+	{
+		TextView sensorGraph;
+		switch (sensorEvent.sensor.getType())
+		{
+			case Sensor.TYPE_AMBIENT_TEMPERATURE:
+				sensorGraph = (TextView) findViewById(R.id.temperature);
+				break;
+			case Sensor.TYPE_RELATIVE_HUMIDITY:
+				sensorGraph = (TextView) findViewById(R.id.humidity);
+				break;
+			case Sensor.TYPE_PRESSURE:
+				sensorGraph = (TextView) findViewById(R.id.pressure);
+				break;
+			default:
+				sensorGraph = null;
+		}
+		if (sensorGraph != null)
+			sensorGraph.setText(Float.toString(sensorEvent.values[0]));
+
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int i)
+	{
+
+	}
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -42,11 +78,32 @@ public class MainActivity extends ActionBarActivity
 			getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
 
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		mTemperature = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+		mPressure = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+		mHumidity = mSensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
+
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(
 			R.id.navigation_drawer,
 			(DrawerLayout) findViewById(R.id.drawer_layout)
 		                               );
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		mSensorManager.registerListener(this, mTemperature, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mHumidity, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mPressure, SensorManager.SENSOR_DELAY_NORMAL);
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		mSensorManager.unregisterListener(this);
 	}
 
 	@Override
