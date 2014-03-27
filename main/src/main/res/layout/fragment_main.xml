@@ -70,23 +70,23 @@
 			android:layout_weight="0.33"
 			android:layout_height="0dp">
 
-			<Button
-				android:id="@+id/button1"
-				android:text="Button"
+			<ProgressBar
+				android:id="@+id/pressureProgress"
+				android:layout_weight="1"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+				android:layout_width="0dp"
+				android:layout_height="fill_parent"/>
+
+			<ProgressBar
+				android:id="@+id/humidityProgress"
+                style="@android:style/Widget.ProgressBar.Horizontal"
 				android:layout_weight="1"
 				android:layout_width="0dp"
 				android:layout_height="fill_parent"/>
 
-			<Button
-				android:id="@+id/button2"
-				android:text="Button"
-				android:layout_weight="1"
-				android:layout_width="0dp"
-				android:layout_height="fill_parent"/>
-
-			<Button
-				android:id="@+id/button3"
-				android:text="Button"
+			<ProgressBar
+				android:id="@+id/temperatureProgress"
+                style="@android:style/Widget.ProgressBar.Horizontal"
 				android:layout_weight="1"
 				android:layout_width="0dp"
 				android:layout_height="fill_parent"/>

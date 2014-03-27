@@ -29,20 +29,35 @@ public class MainActivity extends ActionBarActivity
 	private Sensor mHumidity;
 	private Sensor mPressure;
 
+	private ProgressBar mTemperatureProgress;
+	private ProgressBar mHumidityProgress;
+	private ProgressBar mPressureProgress;
+
+	private static final int TEMPERATURE = 0;
+	private static final int PRESSURE = 1;
+	private static final int HUMIDITY = 2;
+
 	@Override
 	public void onSensorChanged(SensorEvent sensorEvent)
 	{
 		TextView sensorGraph;
+		mTemperatureProgress = (ProgressBar) findViewById(R.id.temperatureProgress);
+		mHumidityProgress = (ProgressBar) findViewById(R.id.humidityProgress);
+		mPressureProgress = (ProgressBar) findViewById(R.id.pressureProgress);
+
 		switch (sensorEvent.sensor.getType())
 		{
 			case Sensor.TYPE_AMBIENT_TEMPERATURE:
 				sensorGraph = (TextView) findViewById(R.id.temperature);
+				mTemperatureProgress.setProgress(this.mapSensorValue(TEMPERATURE, sensorEvent.values[0]));
 				break;
 			case Sensor.TYPE_RELATIVE_HUMIDITY:
 				sensorGraph = (TextView) findViewById(R.id.humidity);
+				mHumidityProgress.setProgress(this.mapSensorValue(HUMIDITY, sensorEvent.values[0]));
 				break;
 			case Sensor.TYPE_PRESSURE:
 				sensorGraph = (TextView) findViewById(R.id.pressure);
+				mPressureProgress.setProgress(this.mapSensorValue(PRESSURE, sensorEvent.values[0]));
 				break;
 			default:
 				sensorGraph = null;
@@ -50,6 +65,18 @@ public class MainActivity extends ActionBarActivity
 		if (sensorGraph != null)
 			sensorGraph.setText(Float.toString(sensorEvent.values[0]));
 
+	}
+
+	private int mapSensorValue(int type, float readout)
+	{
+
+		float[][] mappings = new float[][]
+			{
+				{-50, 100},
+				{850, 1150},
+				{0, 100},
+			};
+		return (int)((readout - mappings[type][0]) / (mappings[type][1] - mappings[type][0]) * 100);
 	}
 
 	@Override
@@ -82,6 +109,7 @@ public class MainActivity extends ActionBarActivity
 		mTemperature = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
 		mPressure = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
 		mHumidity = mSensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
+
 
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(
